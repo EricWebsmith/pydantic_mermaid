@@ -1,0 +1,14 @@
+# cache
+__pycache__/
+
+# temporary files
+*tmp*
+
+# IDEs
+.vscode/
+
+# build
+build/
+dist/
+*.egg-info/
+

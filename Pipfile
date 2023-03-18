@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pydantic = "*"
+
+[dev-packages]
+flake8 = "*"
+flake8-import-order = "*"
+flake8-print = "*"
+mypy = "*"
+
+[requires]
+python_version = "3.10"
