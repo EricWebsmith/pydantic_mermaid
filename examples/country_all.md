@@ -1,31 +1,26 @@
 ```mermaid
 classDiagram
-    class County {
+    class Place {
         name: str
         population: int
     }
 
+    class County {
+    }
+
     class Region {
-        name: str
-        population: int
         counties: List[County]
     }
 
     class Province {
-        name: str
-        population: int
         regions: List[Region]
     }
 
     class City {
-        name: str
-        population: int
         counties: List[County]
     }
 
     class Country {
-        name: str
-        population: int
         provinces: List[Province]
         cities: List[City]
     }
@@ -37,4 +32,9 @@ classDiagram
     Country ..> City
     Country ..> Province
 
+    Place <|-- City
+    Place <|-- County
+    Place <|-- Province
+    Place <|-- Country
+    Place <|-- Region
 ```

@@ -16,28 +16,23 @@ classDiagram
     }
 
     class Dog {
-        lags: int
     }
 
     class Cat {
-        lags: int
     }
 
     class Salmon {
-        gill: str
     }
 
     class Eagle {
-        winds: int
     }
 
 
-
-    Animal <|-- Beast
-    Animal <|-- Bird
     Animal <|-- Fish
-    Beast <|-- Dog
+    Animal <|-- Bird
+    Animal <|-- Beast
     Beast <|-- Cat
+    Beast <|-- Dog
     Fish <|-- Salmon
     Bird <|-- Eagle
 ```

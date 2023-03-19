@@ -1,6 +1,6 @@
 [flake8]
 count = True
-exclude = .git, .direnv, .venv, __pycache__, node_modules
+exclude = build,.git, .direnv, .venv, __pycache__, node_modules
 max-line-length = 120
 
 

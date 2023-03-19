@@ -1,17 +1,18 @@
 import unittest
+from typing import Dict
 
-from pydantic_mermaid.mermaid_generator import get_dependencies
+from pydantic_mermaid.mermaid_generator import _get_dependencies
 
 
 class TestBase(unittest.TestCase):
     def test_str(self):
-        assert get_dependencies(str) == set()
+        assert _get_dependencies(str) == set()
 
     def test_dict(self):
-        assert get_dependencies(dict) == set()
+        assert _get_dependencies(Dict) == set()
 
     def test_dict_int_str(self):
-        assert get_dependencies(dict[int, str]) == set()
+        assert _get_dependencies(Dict[int, str]) == set()
 
 
 if __name__ == "__main__":

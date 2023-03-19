@@ -1,8 +1,9 @@
 import sys
+from typing import List
 
 from pydantic import BaseModel
 
-from pydantic_mermaid.mermaid_generator import MermaidGenerator
+from pydantic_mermaid import MermaidGenerator, Relations
 
 
 class Place(BaseModel):
@@ -15,27 +16,32 @@ class County(Place):
 
 
 class Region(Place):
-    counties: list[County]
+    counties: List[County]
 
 
 class Province(Place):
-    regions: list[Region]
+    regions: List[Region]
 
 
 class City(Place):
-    counties: list[County]
+    counties: List[County]
 
 
 class Country(Place):
     name: str
-    provinces: list[Province]
-    cities: list[City]
+    provinces: List[Province]
+    cities: List[City]
 
 
 current_module = sys.modules["__main__"]
 mg = MermaidGenerator(current_module)
-chart = mg.generate_chart("Country")
 
+chart_dependency = mg.generate_chart("Country")
 with open("./examples/country.md", mode="w") as f:
-    f.write(chart)
+    f.write(chart_dependency)
+    f.close()
+
+chart_all = mg.generate_chart(relations=Relations.Dependency | Relations.Inheritance)
+with open("./examples/country_all.md", mode="w") as f:
+    f.write(chart_all)
     f.close()

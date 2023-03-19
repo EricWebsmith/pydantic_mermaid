@@ -2,7 +2,7 @@ import sys
 
 from pydantic import BaseModel
 
-from pydantic_mermaid import MermaidGenerator
+from pydantic_mermaid import MermaidGenerator, Relations
 
 
 class Animal(BaseModel):
@@ -48,7 +48,7 @@ class Eagle(Bird):
 
 current_module = sys.modules["__main__"]
 mg = MermaidGenerator(current_module)
-chart = mg.generate_chart()
+chart = mg.generate_chart(relations=Relations.Inheritance)
 
 with open("./examples/animals.md", mode="w") as f:
     f.write(chart)

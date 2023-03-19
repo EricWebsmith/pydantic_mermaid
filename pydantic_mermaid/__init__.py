@@ -1,1 +1,1 @@
-from pydantic_mermaid.mermaid_generator import MermaidGenerator  # noqa
+from pydantic_mermaid.mermaid_generator import MermaidGenerator, Relations  # noqa
