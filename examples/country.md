@@ -34,7 +34,7 @@ classDiagram
     Region ..> County
     Province ..> Region
     City ..> County
-    Country ..> City
     Country ..> Province
+    Country ..> City
 
 ```

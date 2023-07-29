@@ -29,12 +29,12 @@ classDiagram
     Region ..> County
     Province ..> Region
     City ..> County
-    Country ..> City
     Country ..> Province
+    Country ..> City
 
     Place <|-- City
     Place <|-- County
-    Place <|-- Province
     Place <|-- Country
+    Place <|-- Province
     Place <|-- Region
 ```

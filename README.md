@@ -94,32 +94,27 @@ dependencies:
 
 ```mermaid
 classDiagram
-    class County {
+    class Place {
         name: str
         population: int
     }
 
+    class County {
+    }
+
     class Region {
-        name: str
-        population: int
         counties: List[County]
     }
 
     class Province {
-        name: str
-        population: int
         regions: List[Region]
     }
 
     class City {
-        name: str
-        population: int
         counties: List[County]
     }
 
     class Country {
-        name: str
-        population: int
         provinces: List[Province]
         cities: List[City]
     }
@@ -128,14 +123,14 @@ classDiagram
     Region ..> County
     Province ..> Region
     City ..> County
-    Country ..> City
     Country ..> Province
+    Country ..> City
 
-    Region --|> Place
-    County --|> Place
-    City --|> Place
-    Country --|> Place
-    Province --|> Place
+    Place <|-- City
+    Place <|-- County
+    Place <|-- Country
+    Place <|-- Province
+    Place <|-- Region
 ```
 
 For details, check examples/ folder.
