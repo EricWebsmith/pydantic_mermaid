@@ -2,6 +2,13 @@
 
 This file documents all notable changes to this project.
 
+## [0.3.0] - 2023-07-30
+
+
+### Changed
+- Split into two projects, supporting pydantic 1 and 2.
+- `generate_chart` now only accepts name parameters.
+
 ## [0.2.0] - 2023-03-20
 
 ### Added

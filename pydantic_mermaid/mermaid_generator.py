@@ -143,7 +143,7 @@ class MermaidGenerator:
                 s += f"    {parent} <|-- {child}\n"
         return s
 
-    def generate_chart(self, root: str = "", relations: Relations = Relations.Dependency) -> str:
+    def generate_chart(self, *, root: str = "", relations: Relations = Relations.Dependency) -> str:
         """print class chart"""
         self.generate_allow_list(root)
 

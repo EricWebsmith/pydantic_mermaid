@@ -17,7 +17,7 @@ class Fish(Animal):
 
 
 class Beast(Animal):
-    lags: int
+    legs: int
 
     def run(self):
         pass

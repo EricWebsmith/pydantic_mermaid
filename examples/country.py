@@ -36,7 +36,7 @@ class Country(Place):
 current_module = sys.modules["__main__"]
 mg = MermaidGenerator(current_module)
 
-chart_dependency = mg.generate_chart("Country")
+chart_dependency = mg.generate_chart(root="Country")
 with open("./examples/country.md", mode="w") as f:
     f.write(chart_dependency)
     f.close()
