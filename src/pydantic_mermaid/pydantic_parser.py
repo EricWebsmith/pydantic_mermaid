@@ -2,10 +2,8 @@
 from types import ModuleType
 from typing import Any, Dict, List, Set, Type
 
-# MAPPING_LIKE_SHAPES is in pydantic 1.10 not in 1.7
-from pydantic.fields import MAPPING_LIKE_SHAPES, ModelField, SHAPE_SINGLETON
+from pydantic.fields import ModelField, SHAPE_SINGLETON
 from pydantic.main import ModelMetaclass
-from pydantic.typing import get_args, get_origin, is_union, WithArgsTypes
 
 from pydantic_mermaid.models import MermaidClass, MermaidGraph, Property
 
@@ -27,36 +25,26 @@ constrained_types = {
 
 def _get_dependencies(v: Type[Any]) -> Set[str]:
     """get dependencies from property types"""
+    print('v', v)
     ans: Set[str] = set()
     if v in base_types:
         return ans
-
-    if not isinstance(v, WithArgsTypes) and not isinstance(v, type):
-        return ans
-
-    if is_union(get_origin(v)):
-        for sub_v in get_args(v):
-            ans |= _get_dependencies(sub_v)
-        return ans
-
-    if "__args__" in dir(v):
-        for sub_v in get_args(v):
-            ans |= _get_dependencies(sub_v)
-        return ans
-        # Generic alias are constructs like `list[int]`
 
     return {v.__name__} - constrained_types
 
 
 def _get_field_dependencies(field: ModelField) -> Set[str]:
     ans = set()
-    if field.shape == SHAPE_SINGLETON:
-        ans |= _get_dependencies(field.type_)
-    elif field.shape in MAPPING_LIKE_SHAPES:
-        ans |= _get_dependencies(field.key_field.type_)  # type: ignore
+
+    if field.key_field is not None:
+        ans |= _get_field_dependencies(field.key_field)
+
+    if field.shape == SHAPE_SINGLETON and not field.sub_fields:
         ans |= _get_dependencies(field.type_)
 
+    # We can use sub_fields to get the type of the elements in a List, Union, etc.
     if field.sub_fields is not None:
+        print("field.sub_fields", field.sub_fields)
         for sub_field in field.sub_fields:  # type: ignore
             ans |= _get_field_dependencies(sub_field)
 
@@ -93,6 +81,7 @@ class PydanticParser:
             fields: Dict[str, ModelField] = class_type.__fields__
             graph.service_clients[class_name] = set()
             for field_name, field in fields.items():
+                # earlier than pydantic 1.9, _type_display will print out a long ugly string
                 properties.append(Property(name=field_name, type=field._type_display()))
                 # dependencies
                 graph.service_clients[class_name] = graph.service_clients[class_name] | _get_field_dependencies(field)

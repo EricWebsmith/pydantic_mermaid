@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pydantic-mermaid"
-version = "0.5.0"
-description = "Convert pydantic 1.10 classes to markdown mermaid class charts"
+version = "0.5.1"
+description = "Convert pydantic 1.9 classes to markdown mermaid class charts"
 authors = ["Eric Websmith <eric.websmith@gmail.com>"]
 readme = "README.md"
 packages = [{include = "pydantic_mermaid", from = "src"}]
@@ -16,7 +16,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pydantic = "^1.10"
+pydantic = "^1.9"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"

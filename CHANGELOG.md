@@ -2,6 +2,12 @@
 
 This file documents all notable changes to this project.
 
+## [0.5.1] - 2023-11-26
+
+### Changed
+- Refactor pydantic_parser
+- Downgrade pydantic to 1.9
+
 ## [0.5.0] - 2023-11-26
 
 ### Changed
