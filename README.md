@@ -13,8 +13,14 @@ pip install pydantic-mermaid
 
 Use command line
 ```bash
-python -m pydantic-mermaid --module models.py --output models.md
+pydantic-mermaid --module models.py --output models.md
 ```
+
+You can run the following comamand get help for the command.
+```bash
+pydantic-mermaid --help
+```
+
 
 # Use in code
 

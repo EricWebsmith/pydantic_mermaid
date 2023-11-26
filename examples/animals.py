@@ -10,7 +10,7 @@ class Animal(BaseModel):
 
 
 class Fish(Animal):
-    gill = "gill"
+    gill: str = "gill"
 
     def swim(self):
         pass
@@ -46,10 +46,11 @@ class Eagle(Bird):
     pass
 
 
-current_module = sys.modules["__main__"]
-mg = MermaidGenerator(current_module)
-chart = mg.generate_chart(relations=Relations.Inheritance)
+if __name__ == "__main__":
+    current_module = sys.modules["__main__"]
+    mg = MermaidGenerator(current_module)
+    chart = mg.generate_chart(relations=Relations.Inheritance)
 
-with open("./examples/animals.md", mode="w") as f:
-    f.write(chart)
-    f.close()
+    with open("./examples/animals.md", mode="w") as f:
+        f.write(chart)
+        f.close()

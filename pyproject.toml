@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "pydantic-mermaid"
+version = "0.5.0"
+description = "Convert pydantic 1.10 classes to markdown mermaid class charts"
+authors = ["Eric Websmith <eric.websmith@gmail.com>"]
+readme = "README.md"
+packages = [{include = "pydantic_mermaid", from = "src"}]
+homepage = "https://github.com/EricWebsmith/pydantic_mermaid"
+
+# Specify the classifiers
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pydantic = "^1.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest-cov = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+pydantic-mermaid = 'pydantic_mermaid.__main__:main'
+
+[tool.pytest.ini_options]
+addopts = "--cov=pydantic_mermaid --cov-report term-missing"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')"
+]
+
+[tool.black]
+line-length = 120
+target-version = ['py37']

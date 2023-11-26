@@ -1,17 +1,22 @@
 from enum import auto, Flag
-from typing import List, Set
+from typing import Dict, List, Set
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+
+__all__ = ["Relations", "MermaidClass", "Property"]
 
 
 class Relations(Flag):
     """Enum for representing the different types of relationships between classes."""
+
     Inheritance = auto()
     Dependency = auto()
 
 
 class Property(BaseModel):
     """A class representing a property of a MermaidClass."""
+
     name: str
     type: str
 
@@ -23,11 +28,7 @@ class MermaidClass(BaseModel):
     properties: List[Property]
 
     def __str__(self) -> str:
-        s = f"\n    class {self.name} {{\n"
-        for property in self.properties:
-            s += f"        {property.name}: {property.type}\n"
-        s += "    }\n"
-        return s
+        return self.generate_class(set())
 
     def generate_class(self, exclude: Set[str]) -> str:
         """
@@ -43,3 +44,13 @@ class MermaidClass(BaseModel):
             s += f"        {property.name}: {property.type}\n"
         s += "    }\n"
         return s
+
+
+class MermaidGraph(BaseModel):
+    """A graph of mermaid classes and their relationships"""
+
+    classes: Dict[str, MermaidClass] = Field(default_factory=dict)
+    service_clients: Dict[str, Set[str]] = Field(default_factory=dict)
+    client_services: Dict[str, Set[str]] = Field(default_factory=dict)
+    parent_children: Dict[str, Set[str]] = Field(default_factory=dict)
+    child_parents: Dict[str, Set[str]] = Field(default_factory=dict)

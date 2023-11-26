@@ -32,9 +32,4 @@ classDiagram
     Country ..> Province
     Country ..> City
 
-    Place <|-- City
-    Place <|-- County
-    Place <|-- Country
-    Place <|-- Province
-    Place <|-- Region
 ```

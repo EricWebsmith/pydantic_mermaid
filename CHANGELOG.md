@@ -2,8 +2,15 @@
 
 This file documents all notable changes to this project.
 
-## [0.3.0] - 2023-07-30
+## [0.5.0] - 2023-11-26
 
+### Changed
+- Synchonize code from pydantic-2-mermaid (except pydantic parser)
+- Exact pydantic parser.
+- Support inheritance in command line.
+- Bump version from 0.3 to 0.5 directly to keep sync with `pydantic-2-mermaid`
+
+## [0.3.0] - 2023-07-30
 
 ### Changed
 - Split into two projects, supporting pydantic 1 and 2.
