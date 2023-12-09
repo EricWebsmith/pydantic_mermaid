@@ -39,3 +39,6 @@ jobs:
         file: ./coverage.xml
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    - name: Lint with ruff
+      run: |
+        poetry run ruff check .
