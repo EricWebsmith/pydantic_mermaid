@@ -2,11 +2,10 @@
 from types import ModuleType
 from typing import Any, Dict, List, Set, Type
 
-from pydantic.fields import ModelField, SHAPE_SINGLETON
+from pydantic.fields import SHAPE_SINGLETON, ModelField
 from pydantic.main import ModelMetaclass
 
 from pydantic_mermaid.models import MermaidClass, MermaidGraph, Property
-
 
 base_types = [str, int, float, bool]
 
@@ -25,7 +24,6 @@ constrained_types = {
 
 def _get_dependencies(v: Type[Any]) -> Set[str]:
     """get dependencies from property types"""
-    print('v', v)
     ans: Set[str] = set()
     if v in base_types:
         return ans
@@ -44,7 +42,6 @@ def _get_field_dependencies(field: ModelField) -> Set[str]:
 
     # We can use sub_fields to get the type of the elements in a List, Union, etc.
     if field.sub_fields is not None:
-        print("field.sub_fields", field.sub_fields)
         for sub_field in field.sub_fields:  # type: ignore
             ans |= _get_field_dependencies(sub_field)
 

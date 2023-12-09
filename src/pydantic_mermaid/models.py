@@ -1,8 +1,7 @@
-from enum import auto, Flag
+from enum import Flag, auto
 from typing import Dict, List, Set
 
 from pydantic import BaseModel, Field
-
 
 __all__ = ["Relations", "MermaidClass", "Property"]
 
@@ -37,7 +36,9 @@ class MermaidClass(BaseModel):
 
         :param exclude: A set of property names to be excluded from the generated class definition.
         """
-        s = f"\n    class {self.name} {{\n"
+        # flake8 of python3.12 treats class as a keyword and gives the following error:
+        # ./src/pydantic_mermaid/models.py:40:17: E272 multiple spaces before keyword
+        s = f"\n{'    '}class {self.name} {{\n"
         for property in self.properties:
             if property.name in exclude:
                 continue

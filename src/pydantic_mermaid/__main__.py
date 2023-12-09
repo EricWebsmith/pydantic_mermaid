@@ -1,9 +1,9 @@
 import argparse
 import importlib
 import logging
-import os
 import sys
 from importlib.util import module_from_spec, spec_from_file_location
+from pathlib import Path
 from types import ModuleType
 from uuid import uuid4
 
@@ -21,15 +21,15 @@ def import_module(path: str) -> ModuleType:
     definition exist in sys.modules under that name.
     """
     try:
-        if os.path.exists(path):
+        if Path(path).exists():
             name = uuid4().hex
             spec = spec_from_file_location(name, path, submodule_search_locations=[])
             module = module_from_spec(spec)  # type: ignore
             sys.modules[name] = module
             spec.loader.exec_module(module)  # type: ignore
             return module
-        else:
-            return importlib.import_module(path)
+
+        return importlib.import_module(path)
     except Exception as e:  # pragma: no cover
         logger.error("The --module argument must be a module path separated by dots or a valid filepath")
         raise e
@@ -91,7 +91,7 @@ def main():
         relations = Relations.Inheritance
 
     chart_content = mg.generate_chart(root=args.root, relations=relations)
-    with open(args.output, "w") as f:
+    with Path(args.output).open("w") as f:
         f.write(chart_content)
 
 

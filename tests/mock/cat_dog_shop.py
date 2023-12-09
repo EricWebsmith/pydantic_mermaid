@@ -1,4 +1,3 @@
-
 from typing import List, Union
 
 from pydantic import BaseModel
@@ -15,4 +14,4 @@ class Dog(BaseModel):
 
 
 class Shop(BaseModel):
-    cat_and_dogs: List[Union[Cat,  Dog]]
+    cat_and_dogs: List[Union[Cat, Dog]]

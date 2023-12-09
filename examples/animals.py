@@ -1,4 +1,5 @@
 import sys
+from pathlib import Path
 
 from pydantic import BaseModel
 
@@ -51,6 +52,6 @@ if __name__ == "__main__":
     mg = MermaidGenerator(current_module)
     chart = mg.generate_chart(relations=Relations.Inheritance)
 
-    with open("./examples/animals.md", mode="w") as f:
+    with Path("./examples/animals.md").open(mode="w") as f:
         f.write(chart)
         f.close()

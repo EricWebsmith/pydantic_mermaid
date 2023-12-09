@@ -1,4 +1,5 @@
 import sys
+from pathlib import Path
 from typing import List
 
 from pydantic import BaseModel
@@ -38,11 +39,10 @@ if __name__ == "__main__":
     mg = MermaidGenerator(current_module)
 
     chart_dependency = mg.generate_chart(root="Country")
-    with open("./examples/country.md", mode="w") as f:
+    with Path("./examples/country.md").open(mode="w") as f:
         f.write(chart_dependency)
-        f.close()
 
     chart_all = mg.generate_chart(relations=Relations.Dependency | Relations.Inheritance)
-    with open("./examples/country_all.md", mode="w") as f:
+    with Path("./examples/country_all.md").open(mode="w") as f:
         f.write(chart_all)
         f.close()

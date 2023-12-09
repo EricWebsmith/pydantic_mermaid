@@ -21,6 +21,7 @@ pydantic = "^1.9"
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"
 pytest-cov = "^4.1.0"
+ruff = "^0.1.7"
 
 [build-system]
 requires = ["poetry-core"]
@@ -38,3 +39,12 @@ markers = [
 [tool.black]
 line-length = 120
 target-version = ['py37']
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+extend-select = ["T20", "I", "N", "C4", "PT", "RET", "SIM", "PTH", "PL", "RUF", "B"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pydantic_mermaid"]

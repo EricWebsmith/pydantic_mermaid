@@ -33,7 +33,7 @@ class MermaidGenerator:
                     self.allow_set = self.allow_set | self.g.parent_children[parent]
 
         if root == "":
-            self.allow_set = {class_name for class_name in self.g.classes}
+            self.allow_set = set(self.g.classes)
 
     def generate_dependencies(self) -> str:
         """print dependencies for class chart"""
@@ -73,7 +73,7 @@ class MermaidGenerator:
 
             parent_class_name = ""
             if class_name in self.g.child_parents:
-                parent_class_name = list(self.g.child_parents[class_name])[0]
+                parent_class_name = next(iter(self.g.child_parents[class_name]))
             if parent_class_name in self.allow_set:
                 inherited_properties = {p.name for p in self.g.classes[parent_class_name].properties}
                 s += class_type.generate_class(exclude=inherited_properties)

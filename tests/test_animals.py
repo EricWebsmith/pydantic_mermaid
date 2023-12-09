@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from examples import animals
 from pydantic_mermaid import MermaidGenerator, Relations
 from tests.utils import compare_charts
@@ -9,7 +11,7 @@ def test_animals():
     actual = chart.split("\n")
 
     expected = []
-    with open("./examples/animals.md", mode="r") as f:
+    with Path("./examples/animals.md").open(mode="r") as f:
         expected = f.readlines()
 
     compare_charts(actual, expected)
@@ -21,7 +23,7 @@ def test_animals_brids():
     actual = chart.split("\n")
 
     expected = []
-    with open("./examples/animals_birds.md", mode="r") as f:
+    with Path("./examples/animals_birds.md").open(mode="r") as f:
         expected = f.readlines()
 
     compare_charts(actual, expected)

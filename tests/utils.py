@@ -4,7 +4,7 @@ from typing import List
 # We have normalize and sort the chart because the order of the classes in the chart
 # is not deterministic.
 def normalize_chart(chart: List[str]) -> List[str]:
-    chart = [line.strip() for line in chart if line != "" and line != "\n"]
+    chart = [line.strip() for line in chart if line not in ("", "\n")]
     chart.sort()
     return chart
 
