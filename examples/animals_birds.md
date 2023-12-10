@@ -1,7 +1,7 @@
 ```mermaid
 classDiagram
     class Bird {
-        winds: int
+        wings: int
     }
 
     class Eagle {

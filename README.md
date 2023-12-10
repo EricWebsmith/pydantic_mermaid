@@ -108,45 +108,73 @@ classDiagram
 
 dependencies:
 
+**Administrative Divisions of the United States of America**
+
 ```mermaid
 classDiagram
-    class Place {
+    class Municipality {
+        name: str
+        population: int
+    }
+
+    class MinorCivilDivision {
         name: str
         population: int
     }
 
     class County {
+        name: str
+        population: int
+        municipalities: list[Municipality]
+        minor_civil_divisions: list[MinorCivilDivision]
     }
 
-    class Region {
-        counties: List[County]
+    class CountyEquivalant {
+        name: str
+        population: int
     }
 
-    class Province {
-        regions: List[Region]
+    class State {
+        name: str
+        population: int
+        counties: list[County]
+        county_equivalants: list[CountyEquivalant]
     }
 
-    class City {
-        counties: List[County]
+    class FederalDistrict {
+        name: str
+        population: int
     }
 
-    class Country {
-        provinces: List[Province]
-        cities: List[City]
+    class InhabitedTerritory {
+        name: str
+        population: int
+    }
+
+    class HabitedTerritory {
+        name: str
+        population: int
+    }
+
+    class Federal {
+        name: str
+        population: int
+        federal_distric: FederalDistrict
+        states: list[State]
+        Inhabited_territories: list[InhabitedTerritory]
+        Habited_territories: list[HabitedTerritory]
     }
 
 
-    Region ..> County
-    Province ..> Region
-    City ..> County
-    Country ..> Province
-    Country ..> City
+    County ..> MinorCivilDivision
+    County ..> Municipality
+    State ..> CountyEquivalant
+    State ..> County
+    Federal ..> InhabitedTerritory
+    Federal ..> HabitedTerritory
+    Federal ..> State
+    Federal ..> FederalDistrict
 
-    Place <|-- City
-    Place <|-- County
-    Place <|-- Country
-    Place <|-- Province
-    Place <|-- Region
 ```
 
 For details, check examples/ folder.

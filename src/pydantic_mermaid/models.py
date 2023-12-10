@@ -3,14 +3,28 @@ from typing import Dict, List, Set
 
 from pydantic import BaseModel, Field
 
-__all__ = ["Relations", "MermaidClass", "Property"]
-
 
 class Relations(Flag):
     """Enum for representing the different types of relationships between classes."""
 
     Inheritance = auto()
     Dependency = auto()
+    Both = Inheritance | Dependency
+
+    def __str__(self) -> str:
+        if isinstance(self.name, str):
+            return self.name.lower()
+
+        return ""  # pragma: no cover
+
+    def __repr__(self) -> str:  # pragma: no cover
+        return str(self)
+
+    @staticmethod
+    def parse(s: str) -> "Relations":
+        """Convert a string to a Relations enum"""
+
+        return Relations[s.title()]
 
 
 class Property(BaseModel):
@@ -51,7 +65,8 @@ class MermaidGraph(BaseModel):
     """A graph of mermaid classes and their relationships"""
 
     class_names: List[str] = Field(
-        description="A list of all pydantic classes that is topologically sorted", default_factory=list
+        description="A list of all pydantic classes that is topologically sorted",
+        default_factory=list,
     )
     class_dict: Dict[str, MermaidClass] = Field(default_factory=dict)
     service_clients: Dict[str, Set[str]] = Field(default_factory=dict)

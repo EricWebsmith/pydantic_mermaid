@@ -25,7 +25,7 @@ class Beast(Animal):
 
 
 class Bird(Animal):
-    winds: int
+    wings: int
 
     def fly(self):
         pass
@@ -54,4 +54,11 @@ if __name__ == "__main__":
 
     with Path("./examples/animals.md").open(mode="w") as f:
         f.write(chart)
+        f.close()
+
+    bird_mg = MermaidGenerator(current_module)
+    bird_chart = bird_mg.generate_chart(root="Bird", relations=Relations.Inheritance)
+
+    with Path("./examples/animals_birds.md").open(mode="w") as f:
+        f.write(bird_chart)
         f.close()

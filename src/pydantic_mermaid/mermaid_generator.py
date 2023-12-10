@@ -75,10 +75,10 @@ class MermaidGenerator:
 
         s += "\n\n"
 
-        if Relations.Dependency in relations:
+        if Relations.Dependency & relations:
             s += self.generate_dependencies()
 
-        if Relations.Inheritance in relations:
+        if Relations.Inheritance & relations:
             s += self.generate_inheritance()
 
         s += "```"

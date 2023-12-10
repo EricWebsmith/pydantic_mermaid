@@ -30,9 +30,9 @@ def import_module(path: str) -> ModuleType:
             return module
 
         return importlib.import_module(path)
-    except Exception as e:  # pragma: no cover
+    except ModuleNotFoundError:  # pragma: no cover
         logger.error("The --module argument must be a module path separated by dots or a valid filepath")
-        raise e
+        sys.exit(1)
 
 
 def _parse_cli_args() -> argparse.Namespace:
@@ -68,9 +68,8 @@ def _parse_cli_args() -> argparse.Namespace:
     parser.add_argument(
         "-e",
         "--relations",
-        nargs="+",
-        type=str,
-        choices=["dependency", "inheritance"],
+        type=Relations.parse,
+        choices=list(Relations),
         help="Dependency or Inheritance chart",
         default="dependency",
     )
@@ -85,15 +84,8 @@ def main():
     module_type = import_module(args.module)
 
     mg = MermaidGenerator(module_type)
-    relations = Relations.Dependency
-    if "dependency" in args.relations and "inheritance" in args.relations:
-        relations = Relations.Dependency | Relations.Inheritance
-    elif "dependency" in args.relations:
-        relations = Relations.Dependency
-    elif "inheritance" in args.relations:
-        relations = Relations.Inheritance
 
-    chart_content = mg.generate_chart(root=args.root, relations=relations)
+    chart_content = mg.generate_chart(root=args.root, relations=args.relations)
     with Path(args.output).open("w") as f:
         f.write(chart_content)
 

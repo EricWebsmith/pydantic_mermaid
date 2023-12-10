@@ -40,25 +40,25 @@ def test_main_path(monkeypatch, tmp_path):
     compare_markdowns(file, "examples/animals.md")
 
 
-def test_main_country_dependency(monkeypatch, tmp_path):
-    file = tmp_path / "country_dependency.md"
+def test_main_usa_dependency(monkeypatch, tmp_path):
+    file = tmp_path / "usa_dependency.md"
     monkeypatch.setattr(
         "sys.argv",
         [
             "pydantic-mermaid",
             "-m",
-            "examples.country",
+            "examples.usa",
             "-o",
             str(file),
             "-e",
             "dependency",
             "-n",
-            "Country",
+            "Federal",
         ],
     )
     main()
 
-    compare_markdowns(file, "examples/country_dependency.md")
+    compare_markdowns(file, "examples/usa_dependency.md")
 
 
 def test_main_both_inheritance_dependency(monkeypatch, tmp_path):
@@ -68,14 +68,13 @@ def test_main_both_inheritance_dependency(monkeypatch, tmp_path):
         [
             "pydantic-mermaid",
             "-m",
-            "examples.country",
+            "examples.usa",
             "-o",
             str(file),
             "-e",
-            "inheritance",
-            "dependency",
+            "both",
         ],
     )
     main()
 
-    compare_markdowns(file, "examples/country_all.md")
+    compare_markdowns(file, "examples/usa_both.md")

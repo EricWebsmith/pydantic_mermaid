@@ -12,7 +12,7 @@ classDiagram
     }
 
     class Bird {
-        winds: int
+        wings: int
     }
 
     class Dog {
@@ -28,11 +28,11 @@ classDiagram
     }
 
 
+    Animal <|-- Bird
     Animal <|-- Fish
     Animal <|-- Beast
-    Animal <|-- Bird
-    Beast <|-- Dog
     Beast <|-- Cat
+    Beast <|-- Dog
     Fish <|-- Salmon
     Bird <|-- Eagle
 ```
