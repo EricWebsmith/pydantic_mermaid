@@ -69,7 +69,8 @@ def _parse_cli_args() -> argparse.Namespace:
         "-e",
         "--relations",
         type=Relations.parse,
-        choices=list(Relations),
+        # list(Relations) does not contain Relations.Both in python3.11 and python3.12
+        choices=list(Relations.__members__.values()),
         help="Dependency or Inheritance chart",
         default="dependency",
     )
