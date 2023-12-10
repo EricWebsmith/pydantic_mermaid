@@ -48,12 +48,14 @@ def _parse_cli_args() -> argparse.Namespace:
         "-m",
         "--module",
         type=str,
+        required=True,
         help="name or filepath of the python module.\n" "Discoverable submodules will also be checked.",
     )
     parser.add_argument(
         "-o",
         "--output",
         type=str,
+        required=True,
         help="name of the file the mermaid chart should be written to.",
     )
     parser.add_argument(
@@ -68,6 +70,7 @@ def _parse_cli_args() -> argparse.Namespace:
         "--relations",
         nargs="+",
         type=str,
+        choices=["dependency", "inheritance"],
         help="Dependency or Inheritance chart",
         default="dependency",
     )

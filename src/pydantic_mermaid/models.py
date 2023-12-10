@@ -50,7 +50,10 @@ class MermaidClass(BaseModel):
 class MermaidGraph(BaseModel):
     """A graph of mermaid classes and their relationships"""
 
-    classes: Dict[str, MermaidClass] = Field(default_factory=dict)
+    class_names: List[str] = Field(
+        description="A list of all pydantic classes that is topologically sorted", default_factory=list
+    )
+    class_dict: Dict[str, MermaidClass] = Field(default_factory=dict)
     service_clients: Dict[str, Set[str]] = Field(default_factory=dict)
     client_services: Dict[str, Set[str]] = Field(default_factory=dict)
     parent_children: Dict[str, Set[str]] = Field(default_factory=dict)

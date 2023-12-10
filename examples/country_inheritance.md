@@ -26,12 +26,6 @@ classDiagram
     }
 
 
-    Region ..> County
-    Province ..> Region
-    City ..> County
-    Country ..> Province
-    Country ..> City
-
     Place <|-- County
     Place <|-- Country
     Place <|-- Region

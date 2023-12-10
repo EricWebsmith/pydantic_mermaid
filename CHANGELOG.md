@@ -2,6 +2,15 @@
 
 This file documents all notable changes to this project.
 
+## [0.5.3] - 2023-12-10
+
+### Changed
+- Add CLI parameter check.
+- Restore class by order in a list instead of using dict keys.
+- Push test case coverage to 100%.
+- Use `ruff` to lint project.
+- Refactor charts comparing in unit test.
+
 ## [0.5.1] - 2023-11-26
 
 ### Changed

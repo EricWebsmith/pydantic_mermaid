@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import List
 
 
@@ -13,3 +14,32 @@ def compare_charts(actual: List[str], expected: List[str]):
     actual = normalize_chart(actual)
     expected = normalize_chart(expected)
     assert actual == expected
+
+
+def compare_chart_and_markdown(chart: str, markdown_path: str):
+    actual = chart.split("\n")
+    actual.sort()
+
+    expected = []
+    with Path(markdown_path).open(mode="r") as f:
+        expected = f.readlines()
+
+    expected.sort()
+
+    compare_charts(actual, expected)
+
+
+def compare_markdowns(markdown_path_1: str, markdown_path_2: str):
+    chart_1_lines = []
+    with Path(markdown_path_1).open(mode="r") as f:
+        chart_1_lines = f.readlines()
+
+    chart_1_lines.sort()
+
+    chart_2_lines = []
+    with Path(markdown_path_2).open(mode="r") as f:
+        chart_2_lines = f.readlines()
+
+    chart_2_lines.sort()
+
+    compare_charts(chart_1_lines, chart_2_lines)

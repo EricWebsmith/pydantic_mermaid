@@ -38,8 +38,12 @@ if __name__ == "__main__":
     current_module = sys.modules["__main__"]
     mg = MermaidGenerator(current_module)
 
-    chart_dependency = mg.generate_chart(root="Country")
-    with Path("./examples/country.md").open(mode="w") as f:
+    chart_dependency = mg.generate_chart(relations=Relations.Inheritance)
+    with Path("./examples/country_inheritance.md").open(mode="w") as f:
+        f.write(chart_dependency)
+
+    chart_dependency = mg.generate_chart(root="Country", relations=Relations.Dependency)
+    with Path("./examples/country_dependency.md").open(mode="w") as f:
         f.write(chart_dependency)
 
     chart_all = mg.generate_chart(relations=Relations.Dependency | Relations.Inheritance)

@@ -18,22 +18,19 @@ class MermaidGenerator:
         or not a dependencies of `root`
         """
         self.allow_set = {root}
+        reversed_class_names = reversed(self.g.class_names)
         if root != "" and relations & Relations.Dependency:
-            parents = list(self.g.service_clients.keys())
-            parents.reverse()
-            for parent in parents:
-                if parent in self.allow_set:
+            for parent in reversed_class_names:
+                if parent in self.allow_set and parent in self.g.service_clients:
                     self.allow_set = self.allow_set | self.g.service_clients[parent]
 
         if root != "" and relations & Relations.Inheritance:
-            parents = list(self.g.parent_children.keys())
-            parents.reverse()
-            for parent in parents:
-                if parent in self.allow_set:
+            for parent in reversed_class_names:
+                if parent in self.allow_set and parent in self.g.parent_children:
                     self.allow_set = self.allow_set | self.g.parent_children[parent]
 
         if root == "":
-            self.allow_set = set(self.g.classes)
+            self.allow_set = set(self.g.class_dict)
 
     def generate_dependencies(self) -> str:
         """print dependencies for class chart"""
@@ -43,8 +40,6 @@ class MermaidGenerator:
                 continue
 
             for d in depended:
-                if d not in self.allow_set:
-                    continue
                 s += f"    {dependant} ..> {d}\n"
 
         s += "\n"
@@ -57,8 +52,6 @@ class MermaidGenerator:
             if parent not in self.allow_set:
                 continue
             for child in children:
-                if child not in self.allow_set:
-                    continue
                 s += f"    {parent} <|-- {child}\n"
         return s
 
@@ -67,7 +60,7 @@ class MermaidGenerator:
         self.generate_allow_list(root, relations)
 
         s = "```mermaid\nclassDiagram"
-        for class_name, class_type in self.g.classes.items():
+        for class_name, class_type in self.g.class_dict.items():
             if class_name not in self.allow_set:
                 continue
 
@@ -75,7 +68,7 @@ class MermaidGenerator:
             if class_name in self.g.child_parents:
                 parent_class_name = next(iter(self.g.child_parents[class_name]))
             if parent_class_name in self.allow_set:
-                inherited_properties = {p.name for p in self.g.classes[parent_class_name].properties}
+                inherited_properties = {p.name for p in self.g.class_dict[parent_class_name].properties}
                 s += class_type.generate_class(exclude=inherited_properties)
             else:
                 s += str(class_type)
