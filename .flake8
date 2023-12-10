@@ -1,9 +1,0 @@
-[flake8]
-count = True
-exclude = build,.git, .direnv, .venv, __pycache__, node_modules
-max-line-length = 120
-
-
-# import order settings
-import-order-style = edited
-application-import-names = pydantic_mermaid
