@@ -5,6 +5,8 @@ This file documents all notable changes to this project.
 ## [0.6.0] - TBD
 
 ### Changed
+- Support Literal in pydantic-2-mermaid (Pyantic v1 per se does not support Literal)
+- Support type redefine in subclasses
 - Support for Relations arguments in argparse
 
 ## [0.5.3] - 2023-12-10

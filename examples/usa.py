@@ -70,9 +70,7 @@ if __name__ == "__main__":
     with Path("./examples/usa_dependency.md").open(mode="w") as f:
         f.write(chart_dependency)
 
-    chart_both = mg.generate_chart(
-        relations=Relations.Dependency | Relations.Inheritance
-    )
+    chart_both = mg.generate_chart(relations=Relations.Dependency | Relations.Inheritance)
     with Path("./examples/usa_both.md").open(mode="w") as f:
         f.write(chart_both)
         f.close()
