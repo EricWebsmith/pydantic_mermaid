@@ -39,6 +39,7 @@ class MermaidClass(BaseModel):
 
     name: str
     properties: List[Property]
+    annotation: str = ""
 
     def __str__(self) -> str:
         return self.generate_class(set())
@@ -53,6 +54,8 @@ class MermaidClass(BaseModel):
         # flake8 of python3.12 treats class as a keyword and gives the following error:
         # ./src/pydantic_mermaid/models.py:40:17: E272 multiple spaces before keyword
         s = f"\n{'    '}class {self.name} {{\n"
+        if self.annotation:
+            s += f"        <<{self.annotation}>>\n"
         for property in self.properties:
             property_with_type = f"{property.name}: {property.type}"
             if property_with_type in exclude:
