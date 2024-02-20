@@ -13,21 +13,21 @@ class Animal(BaseModel):
 class Fish(Animal):
     gill: str = "gill"
 
-    def swim(self):
+    def swim(self) -> None:
         pass
 
 
 class Beast(Animal):
     legs: int
 
-    def run(self):
+    def run(self) -> None:
         pass
 
 
 class Bird(Animal):
     wings: int
 
-    def fly(self):
+    def fly(self) -> None:
         pass
 
 

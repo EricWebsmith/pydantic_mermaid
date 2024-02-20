@@ -42,7 +42,7 @@ def _get_field_dependencies(field: ModelField) -> Set[str]:
 
     # We can use sub_fields to get the type of the elements in a List, Union, etc.
     if field.sub_fields is not None:
-        for sub_field in field.sub_fields:  # type: ignore
+        for sub_field in field.sub_fields:
             ans |= _get_field_dependencies(sub_field)
 
     return ans
