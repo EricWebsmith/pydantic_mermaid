@@ -3,26 +3,19 @@ from enum import Enum
 from pydantic import BaseModel
 
 
-class Flaver(str, Enum):
+class Flavour(str, Enum):
     apple = "apple"
     pumpkin = "pumpkin"
-
-
-class AppleFlaver(str, Enum):
-    apple = "apple"
-
-
-class PumpkinFlaver(str, Enum):
-    pumpkin = "pumpkin"
+    potato = "potato"
 
 
 class Pie(BaseModel):
-    flavor: Flaver
+    flavor: Flavour
 
 
 class ApplePie(Pie):
-    flavor: AppleFlaver  # type: ignore
+    flavor: Flavour = Flavour.apple  # type: ignore
 
 
 class PumpkinPie(Pie):
-    flavor: PumpkinFlaver  # type: ignore
+    flavor: Flavour = Flavour.pumpkin  # type: ignore
