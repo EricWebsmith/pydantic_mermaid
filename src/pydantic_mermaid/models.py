@@ -32,6 +32,7 @@ class Property(BaseModel):
 
     name: str
     type: str
+    default_value: str = ""
 
 
 class MermaidClass(BaseModel):
