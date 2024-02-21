@@ -1,5 +1,5 @@
 """Parse pydantic 1.10 module to mermaid graph"""
-from enum import EnumType
+from enum import EnumMeta
 from types import ModuleType
 from typing import Any, Dict, List, Set, Type
 
@@ -60,7 +60,7 @@ class PydanticParser:
             if class_name in ["BaseModel", "Enum", "Extra", "Relations"]:
                 continue
 
-            if type(class_type) not in [ModelMetaclass, EnumType]:
+            if type(class_type) not in [ModelMetaclass, EnumMeta]:
                 continue
 
             # inheritance
@@ -87,14 +87,15 @@ class PydanticParser:
                         field
                     )
                 graph.service_clients[class_name] = graph.service_clients[class_name]
-            elif isinstance(class_type, EnumType):
+            elif isinstance(class_type, EnumMeta):
                 annotation = "Enumeration"
                 for field in class_type:
                     field_value = field.value
                     if isinstance(field_value, str):
                         field_value = f"'{field_value}'"
-                    field_type = f"{type(field_value).__name__} = {field_value}"
-                    properties.append(Property(name=field.name, type=field_type))
+                    field_type = type(field_value).__name__
+                    default_value = field_value
+                    properties.append(Property(name=field.name, type=field_type, default_value=default_value))
 
             graph.class_dict[class_name] = MermaidClass(name=class_name, properties=properties, annotation=annotation)
             graph.class_names.append(class_name)

@@ -34,6 +34,13 @@ class Property(BaseModel):
     type: str
     default_value: str = ""
 
+    def __str__(self) -> str:
+        s = f"{self.name}: {self.type}"
+        if self.default_value:
+            s = s + f" = {self.default_value}"
+
+        return s
+
 
 class MermaidClass(BaseModel):
     """We call it mermaid class because 'class' is a keyword"""
@@ -58,7 +65,7 @@ class MermaidClass(BaseModel):
         if self.annotation:
             s += f"        <<{self.annotation}>>\n"
         for property in self.properties:
-            property_with_type = f"{property.name}: {property.type}"
+            property_with_type = str(property)
             if property_with_type in exclude:
                 continue
             s += f"        {property_with_type}\n"
