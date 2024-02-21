@@ -94,8 +94,7 @@ class PydanticParser:
                     if isinstance(field_value, str):
                         field_value = f"'{field_value}'"
                     field_type = type(field_value).__name__
-                    default_value = field_value
-                    properties.append(Property(name=field.name, type=field_type, default_value=default_value))
+                    properties.append(Property(name=field.name, type=field_type, default_value=field_value))
 
             graph.class_dict[class_name] = MermaidClass(name=class_name, properties=properties, annotation=annotation)
             graph.class_names.append(class_name)

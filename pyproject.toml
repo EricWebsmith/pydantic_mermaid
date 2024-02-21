@@ -44,8 +44,3 @@ extend-select = ["T20", "I", "N", "C4", "PT", "RET", "SIM", "PTH", "PL", "RUF", 
 
 [tool.ruff.lint.isort]
 known-first-party = ["pydantic_mermaid"]
-
-[[tool.poetry.source]]
-name = "tuna"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
-default = true
