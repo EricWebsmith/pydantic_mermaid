@@ -89,12 +89,10 @@ class PydanticParser:
                 graph.service_clients[class_name] = graph.service_clients[class_name]
             elif isinstance(class_type, EnumMeta):
                 annotation = "Enumeration"
-                for field in class_type:
-                    field_value = field.value
-                    if isinstance(field_value, str):
-                        field_value = f"'{field_value}'"
-                    field_type = type(field_value).__name__
-                    properties.append(Property(name=field.name, type=field_type, default_value=field_value))
+                for name, member in class_type._member_map_.items():
+                    field_type = type(member.value).__name__
+                    value = f"'{member.value}'" if isinstance(member.value, str) else str(member.value)
+                    properties.append(Property(name=name, type=field_type, default_value=value))
 
             graph.class_dict[class_name] = MermaidClass(name=class_name, properties=properties, annotation=annotation)
             graph.class_names.append(class_name)

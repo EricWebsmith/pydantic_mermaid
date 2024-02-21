@@ -14,8 +14,8 @@ class Pie(BaseModel):
 
 
 class ApplePie(Pie):
-    flavor: Flavour = Flavour.apple  # type: ignore
+    flavor: Flavour = Flavour.apple
 
 
 class PumpkinPie(Pie):
-    flavor: Flavour = Flavour.pumpkin  # type: ignore
+    flavor: Flavour = Flavour.pumpkin
