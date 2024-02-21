@@ -1,4 +1,5 @@
 """Parse pydantic 1.10 module to mermaid graph"""
+from enum import EnumMeta
 from types import ModuleType
 from typing import Any, Dict, List, Set, Type
 
@@ -54,14 +55,12 @@ class PydanticParser:
     def __call__(self, module: ModuleType) -> MermaidGraph:
         graph = MermaidGraph()
 
-        """extrac information from module"""
+        """extract information from module"""
         for class_name, class_type in module.__dict__.items():
-            if class_name in ["BaseModel"]:
+            if class_name in ["BaseModel", "Enum", "Extra", "Relations"]:
                 continue
 
-            properties: List[Property] = []
-
-            if not isinstance(class_type, ModelMetaclass):
+            if type(class_type) not in [ModelMetaclass, EnumMeta]:
                 continue
 
             # inheritance
@@ -75,16 +74,29 @@ class PydanticParser:
                 graph.parent_children[parent_name].add(class_name)
 
             # fields
-            fields: Dict[str, ModelField] = class_type.__fields__
-            graph.service_clients[class_name] = set()
-            for field_name, field in fields.items():
-                # earlier than pydantic 1.9, _type_display will print out a long ugly string
-                properties.append(Property(name=field_name, type=field._type_display()))
-                # dependencies
-                graph.service_clients[class_name] = graph.service_clients[class_name] | _get_field_dependencies(field)
+            annotation = ""
+            properties: List[Property] = []
+            if isinstance(class_type, ModelMetaclass):
+                fields: Dict[str, ModelField] = class_type.__fields__
+                graph.service_clients[class_name] = set()
+                for field_name, field in fields.items():
+                    # earlier than pydantic 1.9, _type_display will print out a long ugly string
+                    properties.append(Property(name=field_name, type=field._type_display()))
+                    # dependencies
+                    graph.service_clients[class_name] = graph.service_clients[class_name] | _get_field_dependencies(
+                        field
+                    )
+                graph.service_clients[class_name] = graph.service_clients[class_name]
+            elif isinstance(class_type, EnumMeta):
+                annotation = "Enumeration"
+                for field in class_type:
+                    field_value = field.value
+                    if isinstance(field_value, str):
+                        field_value = f"'{field_value}'"
+                    field_type = type(field_value).__name__
+                    properties.append(Property(name=field.name, type=field_type, default_value=field_value))
 
-            graph.service_clients[class_name] = graph.service_clients[class_name]
-            graph.class_dict[class_name] = MermaidClass(name=class_name, properties=properties)
+            graph.class_dict[class_name] = MermaidClass(name=class_name, properties=properties, annotation=annotation)
             graph.class_names.append(class_name)
 
         return graph

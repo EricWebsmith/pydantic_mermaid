@@ -3,6 +3,7 @@ __pycache__/
 
 # temporary files
 *tmp*
+*-actual.md
 
 # IDEs
 .vscode/

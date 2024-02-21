@@ -1,15 +1,20 @@
 ```mermaid
 classDiagram
+    class Flavour {
+        <<Enumeration>>
+        apple: str = 'apple'
+        pumpkin: str = 'pumpkin'
+        potato: str = 'potato'
+    }
+
     class Pie {
-        flavor: Flaver
+        flavor: Flavour
     }
 
     class ApplePie {
-        flavor: AppleFlaver
     }
 
     class PumpkinPie {
-        flavor: PumpkinFlaver
     }
 
 

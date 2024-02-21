@@ -68,7 +68,7 @@ class MermaidGenerator:
             if class_name in self.g.child_parents:
                 parent_class_name = next(iter(self.g.child_parents[class_name]))
             if parent_class_name in self.allow_set and relations != Relations.Dependency:
-                inherited_properties = {f"{p.name}: {p.type}" for p in self.g.class_dict[parent_class_name].properties}
+                inherited_properties = {str(p) for p in self.g.class_dict[parent_class_name].properties}
                 s += class_type.generate_class(exclude=inherited_properties)
             else:
                 s += str(class_type)

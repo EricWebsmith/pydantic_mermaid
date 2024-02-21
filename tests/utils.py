@@ -17,16 +17,12 @@ def compare_charts(actual: List[str], expected: List[str]) -> None:
 
 
 def compare_chart_and_markdown(chart: str, markdown_path: str) -> None:
-    actual = chart.split("\n")
-    actual.sort()
+    markdown_path = Path(markdown_path)
+    markdown_path_actual = Path(markdown_path).parent / f"{markdown_path.stem}-actual{markdown_path.suffix}"
+    with markdown_path_actual.open("w") as f:
+        f.write(chart)
 
-    expected = []
-    with Path(markdown_path).open(mode="r") as f:
-        expected = f.readlines()
-
-    expected.sort()
-
-    compare_charts(actual, expected)
+    compare_markdowns(str(markdown_path_actual), str(markdown_path))
 
 
 def compare_markdowns(markdown_path_1: Union[str, Path], markdown_path_2: Union[str, Path]) -> None:
