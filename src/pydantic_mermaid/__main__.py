@@ -77,7 +77,7 @@ def _parse_cli_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main():
+def main() -> None:
     """
     CLI entrypoint
     """

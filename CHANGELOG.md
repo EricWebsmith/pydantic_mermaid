@@ -2,7 +2,11 @@
 
 This file documents all notable changes to this project.
 
-## [0.6.0] - TBD
+## [x.x.x] - TBD
+### Changed
+- use strict mypy
+
+## [0.6.0] - 2024-01-14
 
 ### Changed
 - Support Literal in pydantic-2-mermaid (Pyantic v1 per se does not support Literal)
