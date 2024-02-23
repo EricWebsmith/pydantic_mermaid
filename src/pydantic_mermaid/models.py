@@ -49,29 +49,6 @@ class MermaidClass(BaseModel):
     properties: List[Property]
     annotation: str = ""
 
-    def __str__(self) -> str:
-        return self.generate_class(set())
-
-    def generate_class(self, exclude: Set[str]) -> str:
-        """
-        Generate mermaid class definition with some properties omitted.
-        This is used when there is a parent class and we want to omit inherited properties.
-
-        :param exclude: A set of '{property.name}: {property.type}' to be excluded from the generated class definition.
-        """
-        # flake8 of python3.12 treats class as a keyword and gives the following error:
-        # ./src/pydantic_mermaid/models.py:40:17: E272 multiple spaces before keyword
-        s = f"\n{'    '}class {self.name} {{\n"
-        if self.annotation:
-            s += f"        <<{self.annotation}>>\n"
-        for property in self.properties:
-            property_with_type = str(property)
-            if property_with_type in exclude:
-                continue
-            s += f"        {property_with_type}\n"
-        s += "    }\n"
-        return s
-
 
 class MermaidGraph(BaseModel):
     """A graph of mermaid classes and their relationships"""

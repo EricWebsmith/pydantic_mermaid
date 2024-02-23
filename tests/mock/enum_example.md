@@ -12,9 +12,11 @@ classDiagram
     }
 
     class ApplePie {
+        flavor: Flavour = 'apple'
     }
 
     class PumpkinPie {
+        flavor: Flavour = 'pumpkin'
     }
 
 

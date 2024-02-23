@@ -81,7 +81,14 @@ class PydanticParser:
                 graph.service_clients[class_name] = set()
                 for field_name, field in fields.items():
                     # earlier than pydantic 1.9, _type_display will print out a long ugly string
-                    properties.append(Property(name=field_name, type=field._type_display()))
+
+                    default_value = ""
+                    if not field.required:
+                        default_value = f"'{field.default}'" if isinstance(field.default, str) else str(field.default)
+
+                    properties.append(
+                        Property(name=field_name, type=field._type_display(), default_value=default_value)
+                    )
                     # dependencies
                     graph.service_clients[class_name] = graph.service_clients[class_name] | _get_field_dependencies(
                         field

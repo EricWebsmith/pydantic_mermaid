@@ -4,7 +4,7 @@ classDiagram
     }
 
     class Fish {
-        gill: str
+        gill: str = 'gill'
     }
 
     class Beast {

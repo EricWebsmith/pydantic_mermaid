@@ -1,0 +1,24 @@
+```mermaid
+classDiagram
+{% for class in classes %}
+
+    class {{ class.name }} {
+    {% if class.annotation %}
+        <<{{class.annotation}}>>
+    {% endif %}
+    {% for property in class.properties %}
+        {{ property.name }}: {{ property.type }}{% if property.default_value%} = {{ property.default_value }}{% endif %}
+
+    {% endfor %}
+    }
+{% endfor %}
+
+{% for client, service in client_services %}
+    {{ client }} ..> {{ service }}
+{% endfor %}
+
+{% for parent, child in parent_children %}
+    {{ parent }} <|-- {{ child }}
+{% endfor %}
+
+```

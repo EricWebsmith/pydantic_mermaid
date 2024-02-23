@@ -1,5 +1,6 @@
 ```mermaid
 classDiagram
+
     class Bird {
         wings: int
     }
@@ -9,4 +10,5 @@ classDiagram
 
 
     Bird <|-- Eagle
+
 ```
