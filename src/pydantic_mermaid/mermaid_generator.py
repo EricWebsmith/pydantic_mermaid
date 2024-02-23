@@ -75,7 +75,7 @@ class MermaidGenerator:
         """print class chart"""
         self.generate_allow_list(root, relations)
 
-        final_classes: list[MermaidClass] = []
+        final_classes: List[MermaidClass] = []
 
         for class_name, class_value in self.g.class_dict.items():
             if class_name not in self.allow_set:

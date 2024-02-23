@@ -49,6 +49,17 @@ def _get_field_dependencies(field: ModelField) -> Set[str]:
     return ans
 
 
+def get_default_value(field: ModelField) -> str:
+    default_value = ""
+    if not field.required:
+        if isinstance(field.default, str) and not isinstance(field.type_, EnumMeta):
+            default_value = f"'{field.default}'"
+        else:
+            default_value = str(field.default)
+
+    return default_value
+
+
 class PydanticParser:
     """parse pydantic module to mermaid graph"""
 
@@ -82,12 +93,8 @@ class PydanticParser:
                 for field_name, field in fields.items():
                     # earlier than pydantic 1.9, _type_display will print out a long ugly string
 
-                    default_value = ""
-                    if not field.required:
-                        default_value = f"'{field.default}'" if isinstance(field.default, str) else str(field.default)
-
                     properties.append(
-                        Property(name=field_name, type=field._type_display(), default_value=default_value)
+                        Property(name=field_name, type=field._type_display(), default_value=get_default_value(field))
                     )
                     # dependencies
                     graph.service_clients[class_name] = graph.service_clients[class_name] | _get_field_dependencies(
