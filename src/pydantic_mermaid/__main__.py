@@ -2,6 +2,8 @@ import argparse
 import importlib
 import logging
 import sys
+from importlib.abc import Loader
+from importlib.machinery import ModuleSpec
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 from types import ModuleType
@@ -24,10 +26,16 @@ def import_module(path: str) -> ModuleType:
         if Path(path).exists():
             name = uuid4().hex
             spec = spec_from_file_location(name, path, submodule_search_locations=[])
-            module = module_from_spec(spec)  # type: ignore
-            sys.modules[name] = module
-            spec.loader.exec_module(module)  # type: ignore
-            return module
+
+            if isinstance(spec, ModuleSpec):
+                module = module_from_spec(spec)
+                sys.modules[name] = module
+                if isinstance(spec.loader, Loader):
+                    spec.loader.exec_module(module)
+                    return module
+
+            logger.error(f"Failed to import module from file {path}")  # pragma: no cover
+            sys.exit(1)  # pragma: no cover
 
         return importlib.import_module(path)
     except ModuleNotFoundError:  # pragma: no cover
@@ -87,8 +95,7 @@ def main() -> None:
     mg = MermaidGenerator(module_type)
 
     chart_content = mg.generate_chart(root=args.root, relations=args.relations)
-    with Path(args.output).open("w") as f:
-        f.write(chart_content)
+    Path(args.output).write_text(chart_content)
 
 
 if __name__ == "__main__":  # pragma: no cover
