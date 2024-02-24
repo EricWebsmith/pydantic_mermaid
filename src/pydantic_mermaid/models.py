@@ -12,10 +12,7 @@ class Relations(Flag):
     Both = Inheritance | Dependency
 
     def __str__(self) -> str:
-        if isinstance(self.name, str):
-            return self.name.lower()
-
-        return ""  # pragma: no cover
+        return self.name.lower()  # type: ignore
 
     def __repr__(self) -> str:  # pragma: no cover
         return str(self)

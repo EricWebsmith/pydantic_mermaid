@@ -1,6 +1,6 @@
 from copy import deepcopy
 from types import ModuleType
-from typing import List, Set, Tuple
+from typing import Dict, List, Set, Tuple
 
 from importlib_resources import files
 from jinja2 import Environment, FileSystemLoader
@@ -24,52 +24,46 @@ class MermaidGenerator:
     """genertate a class chart from module"""
 
     def __init__(self, module: ModuleType) -> None:
-        self.g: MermaidGraph = PydanticParser()(module)
+        self.graph: MermaidGraph = PydanticParser()(module)
         self.allow_set: Set[str] = set()
 
     def generate_allow_list(self, root: str, relations: Relations) -> None:
         """
-        user can focus on certain class `root` and prune classes that is inherited from `root`
-        or not a dependencies of `root`
+        user can focus on certain class `root` and prune classes that is not inherited from `root`
+        or does not depend on `root`
         """
         self.allow_set = {root}
-        reversed_class_names = reversed(self.g.class_names)
+        reversed_class_names = reversed(self.graph.class_names)
         if root != "" and relations & Relations.Dependency:
             for parent in reversed_class_names:
-                if parent in self.allow_set and parent in self.g.service_clients:
-                    self.allow_set = self.allow_set | self.g.service_clients[parent]
+                if parent in self.allow_set and parent in self.graph.service_clients:
+                    self.allow_set = self.allow_set | self.graph.service_clients[parent]
 
         if root != "" and relations & Relations.Inheritance:
             for parent in reversed_class_names:
-                if parent in self.allow_set and parent in self.g.parent_children:
-                    self.allow_set = self.allow_set | self.g.parent_children[parent]
+                if parent in self.allow_set and parent in self.graph.parent_children:
+                    self.allow_set = self.allow_set | self.graph.parent_children[parent]
 
         if root == "":
-            self.allow_set = set(self.g.class_dict)
+            self.allow_set = set(self.graph.class_dict)
+
+    def _generate_relationship_map(self, relationship: Dict[str, Set[str]]) -> Map:
+        """Generic method to generate relationship maps for dependencies or inheritance."""
+        relationship_map: Map = []
+        for entity, related_entities in relationship.items():
+            if entity not in self.allow_set:
+                continue
+            for related_entity in related_entities:
+                relationship_map.append((entity, related_entity))
+        return relationship_map
 
     def generate_dependencies(self) -> Map:
-        """print dependencies for class chart"""
-
-        dependencies: Map = []
-        for dependant, depended in self.g.service_clients.items():
-            if dependant not in self.allow_set:
-                continue
-
-            for d in depended:
-                dependencies.append((dependant, d))
-
-        return dependencies
+        """Generate dependencies for class chart using the generic relationship method."""
+        return self._generate_relationship_map(self.graph.service_clients)
 
     def generate_inheritance(self) -> Map:
-        """print inheritance for class chart"""
-
-        parent_children: Map = []
-        for parent, children in self.g.parent_children.items():
-            if parent not in self.allow_set:
-                continue
-            for child in children:
-                parent_children.append((parent, child))
-        return parent_children
+        """Generate inheritance for class chart using the generic relationship method."""
+        return self._generate_relationship_map(self.graph.parent_children)
 
     def generate_chart(self, *, root: str = "", relations: Relations = Relations.Dependency) -> str:
         """print class chart"""
@@ -77,17 +71,16 @@ class MermaidGenerator:
 
         final_classes: List[MermaidClass] = []
 
-        for class_name, class_value in self.g.class_dict.items():
-            if class_name not in self.allow_set:
-                continue
+        for class_name in self.allow_set:
+            class_value = self.graph.class_dict[class_name]
 
             final_class = deepcopy(class_value)
 
             parent_class_name = ""
-            if class_name in self.g.child_parents:
-                parent_class_name = next(iter(self.g.child_parents[class_name]))
+            if class_name in self.graph.child_parents:
+                parent_class_name = next(iter(self.graph.child_parents[class_name]))
             if parent_class_name in self.allow_set and relations != Relations.Dependency:
-                inherited_properties = {str(p) for p in self.g.class_dict[parent_class_name].properties}
+                inherited_properties = {str(p) for p in self.graph.class_dict[parent_class_name].properties}
                 final_class.properties = [p for p in final_class.properties if str(p) not in inherited_properties]
 
             final_classes.append(final_class)
