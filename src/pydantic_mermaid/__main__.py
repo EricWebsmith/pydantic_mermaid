@@ -41,7 +41,7 @@ def _parse_cli_args() -> argparse.Namespace:
     """
     parser = argparse.ArgumentParser(
         prog="pydantic-mermaid",
-        description=main.__doc__,
+        description="Generate mermaid charts from pydantic models.",
         formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(
