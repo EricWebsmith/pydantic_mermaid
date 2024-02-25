@@ -5,6 +5,8 @@ This file documents all notable changes to this project.
 ## [0.7.1] - 2024-02-25
 ### Changed
 - Fix ellipsis in type
+- Remove depend on NoneType
+- Correct display default value factory
 
 ## [0.7.0] - 2024-02-24
 
