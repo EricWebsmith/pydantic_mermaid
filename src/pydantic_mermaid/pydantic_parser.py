@@ -51,7 +51,9 @@ def _get_field_dependencies(field: ModelField) -> Set[str]:
 
 def get_default_value(field: ModelField) -> str:
     default_value = ""
-    if not field.required:
+    if field.default_factory:
+        default_value = field.default_factory.__name__
+    elif not field.required:
         if isinstance(field.default, str) and not isinstance(field.type_, EnumMeta):
             default_value = f"'{field.default}'"
         else:

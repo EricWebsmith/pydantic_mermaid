@@ -7,7 +7,7 @@ classDiagram
         <<{{class.annotation}}>>
     {% endif %}
     {% for property in class.properties %}
-        {{ property.name }}: {{ property.type }}{% if property.default_value%} = {{ property.default_value }}{% endif %}
+        {{ property.name }}: {{ property.type }}{% if property.default_value %} = {{ property.default_value }}{% endif %}
 
     {% endfor %}
     }
