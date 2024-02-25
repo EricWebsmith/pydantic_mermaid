@@ -2,7 +2,12 @@
 
 This file documents all notable changes to this project.
 
-## [0.7.0] - TBD
+## [0.7.1] - 2024-02-25
+### Changed
+- Fix ellipsis in type
+
+## [0.7.0] - 2024-02-24
+
 ### Changed
 - Support Enums
 - Add default values

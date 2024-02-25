@@ -1,11 +1,28 @@
+from __future__ import annotations
+
 from pathlib import Path
-from typing import List, Union
+from re import Pattern, compile
+from typing import List, Tuple, Union
+
+type_keyword_re: List[Tuple[Pattern[str], str]] = [
+    (compile(r"\btuple\b"), "Tuple"),
+    (compile(r"\blist\b"), "List"),
+    (compile(r"\bdict\b"), "Dict"),
+    (compile(r"\bset\b"), "Set"),
+]
 
 
-# We have normalize and sort the chart because the order of the classes in the chart
-# is not deterministic.
+def normalize_line(line: str) -> str:
+    """Normalize a line by stripping leading and trailing whitespace and ignore type case."""
+    line = line.strip()
+    for pattern, replacement in type_keyword_re:
+        line = pattern.sub(replacement, line)
+    return line
+
+
 def normalize_chart(chart: List[str]) -> List[str]:
-    chart = [line.strip() for line in chart if line not in ("", "\n")]
+    """Normalize and sort the chart because the order of the classes in the chart is not deterministic."""
+    chart = [normalize_line(line) for line in chart if line not in ("", "\n")]
     chart.sort()
     return chart
 
