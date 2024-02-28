@@ -2,7 +2,7 @@
 
 This file documents all notable changes to this project.
 
-## [0.7.1] - 2024-02-25
+## [0.7.1] - 2024-02-28
 ### Changed
 - Fix ellipsis in type
 - Remove depend on NoneType
