@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
@@ -10,6 +8,8 @@ def get_name() -> str:
 
 
 class Person(BaseModel):
+    """old style class"""
+
     name: Optional[str] = None
     full_name: str = Field(title="Full Name", description="Full name of the person", default_factory=get_name)
     age: Optional[int] = Field(None, title="Age", description="Age of the person")
