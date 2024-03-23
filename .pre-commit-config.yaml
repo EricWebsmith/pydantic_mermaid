@@ -8,12 +8,12 @@ repos:
       - id: ruff-format
 
   - repo: git@github.com:pre-commit/mirrors-mypy.git
-    rev: v1.8.0
+    rev: v1.9.0
     hooks:
       - id: mypy
         args: [ --strict ]
         additional_dependencies: 
           - pydantic==1.9
-          - pytest==7.4.3
+          - pytest==8.1.0
           - importlib_resources==6.1.1
           - jinja2==3.1.3
