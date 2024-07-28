@@ -38,8 +38,9 @@ def import_module(path: str) -> ModuleType:
             sys.exit(1)  # pragma: no cover
 
         return importlib.import_module(path)
-    except ModuleNotFoundError:  # pragma: no cover
+    except ModuleNotFoundError as e:  # pragma: no cover
         logger.error("The --module argument must be a module path separated by dots or a valid filepath")
+        logger.exception(e)
         sys.exit(1)
 
 
