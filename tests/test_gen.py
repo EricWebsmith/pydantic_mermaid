@@ -5,7 +5,7 @@ import pytest
 from examples import animals, usa
 from pydantic_mermaid import MermaidGenerator, Relations
 from tests.issues import issue4
-from tests.mock import cat_dog_shop, enum_example, marriage
+from tests.mock import cat_dog_shop, enum_example, marriage, show_optional
 from tests.utils import compare_chart_and_markdown
 
 
@@ -18,6 +18,7 @@ from tests.utils import compare_chart_and_markdown
         (enum_example, "", Relations.Inheritance, "tests/mock/enum_example.md"),
         (marriage, "", Relations.Dependency, "tests/mock/marriage.md"),
         (usa, "Federal", Relations.Dependency, "examples/usa_dependency.md"),
+        (show_optional, "", Relations.Inheritance, "tests/mock/show_optional.md"),
         (issue4, "", Relations.Dependency, "tests/issues/issue4.md"),
     ],
 )
