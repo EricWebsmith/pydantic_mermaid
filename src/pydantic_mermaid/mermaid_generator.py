@@ -50,10 +50,10 @@ class MermaidGenerator:
     def _generate_relationship_map(self, relationship: Dict[str, Set[str]]) -> Map:
         """Generic method to generate relationship maps for dependencies or inheritance."""
         relationship_map: Map = []
-        for entity, related_entities in relationship.items():
+        for entity in sorted(relationship):
             if entity not in self.allow_set:
                 continue
-            for related_entity in related_entities:
+            for related_entity in sorted(relationship[entity]):
                 relationship_map.append((entity, related_entity))
         return relationship_map
 
@@ -71,7 +71,7 @@ class MermaidGenerator:
 
         final_classes: List[MermaidClass] = []
 
-        for class_name in self.allow_set:
+        for class_name in sorted(self.allow_set):
             class_value = self.graph.class_dict[class_name]
 
             final_class = deepcopy(class_value)
@@ -84,7 +84,9 @@ class MermaidGenerator:
                 final_class.properties = [p for p in final_class.properties if str(p) not in inherited_properties]
 
             final_classes.append(final_class)
-
+            
+        final_classes.sort(key=lambda c: c.name)
+        
         client_services: Map = []
         if Relations.Dependency & relations:
             client_services = self.generate_dependencies()
